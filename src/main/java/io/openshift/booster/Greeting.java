@@ -20,6 +20,7 @@ package io.openshift.booster;
 public class Greeting {
 
     private final String content;
+    private int id;
 
     public Greeting() {
         this.content = null;
@@ -29,8 +30,17 @@ public class Greeting {
         this.content = content;
     }
 
+    public Greeting(int id, String content) {
+        this.content = content;
+        this.id = id;
+    }
+
     public String getContent() {
         return content;
+    }
+
+    public int getId() {
+        return id;
     }
 
 }

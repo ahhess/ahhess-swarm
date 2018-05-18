@@ -1,7 +1,0 @@
-target
-.idea
-*.iml
-prod.sh
-/.settings/
-/.classpath
-/.project

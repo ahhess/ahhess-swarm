@@ -20,51 +20,80 @@
 
 <head>
 
-  <meta charset="utf-8">
-  <title>API Level 0 Mission - WildFly Swarm</title>
+<meta charset="utf-8">
+<title>API Level 0 Mission - WildFly Swarm</title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
 
 </head>
 
 <body>
 
-<div class="container">
+	<div class="container">
 
-  <div>
-    <div class="sect1">
-<h2 id="_http_booster">HTTP Booster</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>An example of simple mapping of a business operation to a remote endpoint. By taking this approach, clients use the HTTP protocol as a transport mechanism to call services. Application engineers define the APIs using a broad interpretation of the REST fundamentals, encouraging freedom in design and quick prototyping.</p>
-</div>
-<div class="sect2">
-<h3 id="_using_the_greeting_service">Using the greeting service</h3>
+		<div class="sect1">
+			<h2 id="_http_booster">HTTP Booster</h2>
+			<div class="sectionbody">
+				<div class="paragraph">
+					<p>An example of simple mapping of a business operation to a
+						remote endpoint. By taking this approach, clients use the HTTP
+						protocol as a transport mechanism to call services. Application
+						engineers define the APIs using a broad interpretation of the REST
+						fundamentals, encouraging freedom in design and quick prototyping.</p>
+				</div>
+			</div>
+		</div>
 
-</div>
-</div>
-</div>
+			<h3 id="_using_the_greeting_service">Using the greeting service</h3>
 
-    <form class="form-inline">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" placeholder="World">
-      </div>
-      <button id="invoke" type="submit" class="btn btn-success">Invoke</button>
-    </form>
 
-    <h3>Result:</h3>
-    <pre><code id="greeting-result">Invoke the service to see the result.</code></pre>
-  </div>
-</div>
+			<form class="form-inline">
+				<div class="form-group">
+					<label for="name">Name</label> <input type="text"
+						class="form-control" id="name" placeholder="World">
+				</div>
+				<button id="invoke" type="submit" class="btn btn-success">Invoke</button>
+			</form>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
 
-<script>
+			<h3>Result:</h3>
+			<pre>
+				<code id="greeting-result">Invoke the service to see the result.</code>
+			</pre>
+
+			<h3 id="_using_the_greets_service">Using the greets service</h3>
+			<form class="form-inline">
+				<div class="form-group">
+					<label for="id">ID:</label> 
+					<input type="text" class="form-control"	id="id" placeholder="1">
+				</div>
+				<button id="btnGetGreets" class="btn btn-success">Read</button>
+				<button id="btnDeleteGreets" class="btn btn-warning">Delete</button>
+				<div class="form-group">
+					<label for="name">Name:</label> 
+					<input type="text" class="form-control" id="name" placeholder="name">
+				</div>
+				<button id="btnSaveGreets" class="btn">Save</button>
+			</form>
+
+			<h3>Result:</h3>
+			<pre>
+				<code id="greets-result">Invoke the service to see the result.</code>
+			</pre>
+
+	</div>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		crossorigin="anonymous"></script>
+
+	<script>
     $(document).ready(function() {
        $("#invoke").click(function(e) {
           var n = $("#name").val() || "World";
@@ -72,6 +101,33 @@
               $("#greeting-result").text(JSON.stringify(res));
           });
           e.preventDefault();
+       });
+       $("#btnGetGreets").click(function(e) {
+           var n = $("#id").val();
+           $.getJSON("/api/greets/" + n, function(res) {
+               $("#greets-result").text(JSON.stringify(res));
+           });
+           e.preventDefault();
+       });
+       $("#btnDeleteGreets").click(function(e) {
+           var n = $("#id").val();
+           $.deleteJSON("/api/greets/" + n, function(res) {
+               $("#greets-result").text(JSON.stringify(res));
+           });
+           e.preventDefault();
+       });
+       $("#btnSaveGreets").click(function(e) {
+	       class Greeting {
+	    	   constructor(id, name) {
+	    	     this.id = id;
+	    	     this.name = name;
+	    	   }
+	    	 };
+	       var greeting = new Greeting($("#id").val(), $("#name").val());
+           $.postJSON("/api/greets/", greeting, function(res) {
+               $("#greets-result").text(JSON.stringify(res));
+           });
+           e.preventDefault();
        });
     });
 </script>

@@ -43,4 +43,9 @@ public class Greeting {
         return id;
     }
 
+	@Override
+	public String toString() {
+		return "Greeting [id=" + id + ", content=" + content + "]";
+	}
+
 }
